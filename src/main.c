@@ -1,31 +1,28 @@
 #include "snake.h"
 
-int				main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-	t_settings *settings;
+	int height;
+	int width;
 
-	settings = parse_args(argc, argv);
-	if (settings->height <= 0 || settings->width <= 0)
+	height = 0;
+	width = 0;
+	parse_args(argc, argv, &height, &width);
+	if (height <= 0 || width <= 0)
 		return (0);
-	play(settings);
-	free(settings);
+	play(height, width);
 	return (0);
 }
 
-t_settings		*parse_args(int argc, char **argv)
+void parse_args(int argc, char **argv, int *height, int *width)
 {
-	t_settings *ret;
-
-	ret = (t_settings*)malloc(sizeof(*ret));
-	ret->height = 0;
-	ret->width = 0;
-	ret->show_help = 1;
-	if (argc == 1)
-	{
-		ret->height = DEFAULT_HEIGHT;
-		ret->width = DEFAULT_WIDTH;
+	*height = 0;
+	*width = 0;
+	if (argc == 1) {
+		*height = DEFAULT_HEIGHT;
+		*width = DEFAULT_WIDTH;
 	}
-	if (argc == 2)
+	if (argc >= 2 && atoi(argv[1]) == 0)
 	{
 		if (strcmp(argv[1], "--version") == 0)
 			print_version();
@@ -34,8 +31,7 @@ t_settings		*parse_args(int argc, char **argv)
 	}
 	else if (argc >= 3)
 	{
-		ret->width = atoi(argv[1]);
-		ret->height = atoi(argv[2]);
+		*width = atoi(argv[1]);
+		*height = atoi(argv[2]);
 	}
-	return (ret);
 }

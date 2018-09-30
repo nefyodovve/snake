@@ -13,58 +13,34 @@ void	print_description(void)
 	printf("field height = %d\n", DEFAULT_HEIGHT);
 }
 
-void	printw_field(t_cell **field, t_settings *settings)
+void	show_field(t_cell **field, int height, int width, int pause)
 {
 	move(0, 0);
-	printw("%s", get_str_field(field, settings));
-	if (settings->show_help)
-		printw_help();
-	else
-		printw("\n");
-}
-
-char	*get_str_field(t_cell **field, t_settings *settings)
-{
-	char	*ret;
-	int		k;
-	int		xmax;
-	int		ymax;
-
-	xmax = settings->width;
-	ymax = settings->height;
-	ret = (char*)malloc(sizeof(*ret) * (ymax * (xmax + 1) + 1));
-	k = 0;
-	for (int i = 0; i < ymax; i++)
-	{
-		for (int j = 0; j < xmax; j++)
-			ret[k++] = get_field_char(field[i][j]);
-		ret[k++] = '\n';
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++)
+			addch(get_field_char(field[i][j]));
+		addch('\n');
 	}
-	
-	ret[++k] = '\0';
-	return (ret);
-}
-
-void	printw_help(void)
-{
-	printw("[arrows] to move; [q] for quit; ");
-	printw("[p] for pause; [h] to hide/show this help\n");
+	printw("[q] for quit; [p] for pause");
+	if (pause) {
+		move(0, width + 1);
+		printw("PAUSE");
+	}
 }
 
 char	get_field_char(t_cell cell)
 {
 	switch (cell)
 	{
-	case empty:
+	case EMPTY:
 		return (' ');
-	case edge:
+	case EDGE:
 		return ('#');
-	case head:
+	case HEAD:
 		return ('0');
-	case body:
-	case tail:
+	case BODY:
 		return ('o');
-	case food:
+	case FOOD:
 		return ('@');
 	}
 	return ('?');
