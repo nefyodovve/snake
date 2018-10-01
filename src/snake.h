@@ -1,18 +1,40 @@
 #ifndef SNAKE_H
 # define SNAKE_H
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <string.h>
 # include <ncurses.h>
+# include <stdlib.h>
 
-# define VERSION		"0.1"
-# define DEFAULT_HEIGHT	20
-# define DEFAULT_WIDTH	40
-# define DEFAULT_X		20
-# define DEFAULT_Y		10
+# define DEF_HEIGHT 10
+# define DEF_WIDTH	15
+# define DEF_DELAY	1000
+# define MIN_DELAY	300
 
-typedef enum e_cell
+typedef enum e_input {
+	INPUT_NONE,
+	INPUT_UP,
+	INPUT_DOWN,
+	INPUT_LEFT,
+	INPUT_RIGHT,
+	INPUT_PAUSE,
+	INPUT_QUIT	
+} t_input;
+
+typedef enum e_move {
+	NOT_MOVE,
+	MOVE_UP,
+	MOVE_DOWN,
+	MOVE_LEFT,
+	MOVE_RIGHT
+} t_move;
+
+typedef enum e_move_res {
+	MOVE_OK,
+	NOT_MOVED,
+	SMASHED,
+	BON_APPETIT
+} t_move_res;
+
+typedef enum	e_cell
 {
 	EMPTY,
 	EDGE,
@@ -21,41 +43,32 @@ typedef enum e_cell
 	FOOD
 } t_cell;
 
-typedef enum e_input
+typedef struct s_list
 {
-	NONE,
-	ROTATE,
-	PAUSE,
-	QUIT,
-	GAMEOVER
-} t_input;
+	struct s_list *next;
+	int x;
+	int y;
 
-typedef struct s_snake_list
-{
-	struct s_snake_list	 *next;
-	t_cell				**field;
-	int					  x;
-	int					  y;
-	t_cell				  *cell;
-	int					  length;
+} t_list;
 
-} t_snake_list;
-
-void			  parse_args(int argc, char **argv, int *height, int *width);
-void			  play(int height, int width);
-void			  print_version(void);
-void			  print_description(void);
-void			  show_field(t_cell **field, int height, int width, int pause);
-t_cell			**create_field(int height, int width);
-void			  destroy_field(t_cell **field, int height);
-t_snake_list	 *create_snake(t_cell **field, int x, int y);
-t_cell			  move_snake(t_snake_list **snake, int dir);
-void			  change_xy(t_snake_list *snake, int dir);
-void			  destroy_snake(t_snake_list **snake);
-t_input			  handle_input(t_snake_list **snake, int *dir);
-void			  destroy_field(t_cell **field, int height);
-char			  get_field_char(t_cell cell);
-void	place_food(t_snake_list *snake);
-int is_opposite_dir(int key1, int key2);
+t_list		 *create_elem(int x, int y);
+int			  push_front(t_list **list, int x, int y);
+void		  del_back(t_list **list);
+void		  clear_list(t_list **list);
+void		  play(int height, int width);
+t_list		 *create_snake(int x, int y);
+t_move_res	  move_snake(t_list **snake, t_cell** field, t_move dir);
+void		  destroy_snake(t_list **snake);
+t_cell		**create_field(int height, int width);
+void		  destroy_field(t_cell **field, int height);
+void		  clear_field(t_cell **field, int height, int width);
+t_input		  handle_input(void);
+int			  is_input_move(t_input input);
+t_move		  input_to_move(t_input input, t_input prev_input, int length);
+void		  show_field(t_cell **field, int height, int width, t_list *snake);
+void		  show_status(int gameover_flag, int length, int wait_time);
+char		  get_field_char(t_cell cell);
+void		  place_snake_to_field(t_list *snake, t_cell **field);
+int 		  place_food(t_cell **field, int height, int width, int length);
 
 #endif

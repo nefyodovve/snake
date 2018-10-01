@@ -1,6 +1,7 @@
 NAME = snake
 
-SRC =	./src/main.c ./src/play.c ./src/display.c ./src/input.c ./src/snake.c
+SRC =	./src/main.c ./src/play.c ./src/display.c ./src/snake.c \
+	./src/field.c ./src/list.c
 HDR_DIR = ./src
 FLAGS = -Wall -Wextra
 LIB = ncurses
