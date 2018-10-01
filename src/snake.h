@@ -13,6 +13,15 @@
 # define DEF_DELAY	1000
 # define MIN_DELAY	300
 
+typedef enum	e_cell
+{
+	EMPTY,
+	EDGE,
+	BODY,
+	HEAD,
+	FOOD
+} t_cell;
+
 typedef enum e_input {
 	INPUT_NONE,
 	INPUT_UP,
@@ -20,7 +29,7 @@ typedef enum e_input {
 	INPUT_LEFT,
 	INPUT_RIGHT,
 	INPUT_PAUSE,
-	INPUT_QUIT	
+	INPUT_QUIT
 } t_input;
 
 typedef enum e_move {
@@ -37,15 +46,6 @@ typedef enum e_move_res {
 	SMASHED,
 	BON_APPETIT
 } t_move_res;
-
-typedef enum	e_cell
-{
-	EMPTY,
-	EDGE,
-	BODY,
-	HEAD,
-	FOOD
-} t_cell;
 
 typedef struct s_list
 {
@@ -70,9 +70,10 @@ t_input		  handle_input(void);
 int			  is_input_move(t_input input);
 t_move		  input_to_move(t_input input, t_input prev_input, int length);
 void		  show_field(t_cell **field, int height, int width, t_list *snake);
+void		  init_colors(void);
 void		  show_status(int gameover_flag, int length, int wait_time);
 char		  get_field_char(t_cell cell);
 void		  place_snake_to_field(t_list *snake, t_cell **field);
-int 		  place_food(t_cell **field, int height, int width, int length);
+int			  place_food(t_cell **field, int height, int width, int length);
 
 #endif

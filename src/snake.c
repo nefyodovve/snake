@@ -22,7 +22,7 @@ t_move_res move_snake(t_list **snake, t_cell** field, t_move dir)
 	else if (dir == MOVE_RIGHT)
 		x++;
 	else if (dir == NOT_MOVE)
-		return (NOT_MOVED); 
+		return (NOT_MOVED);
 	if (field[y][x] == EDGE || field[y][x] == BODY)
 		return (SMASHED);
 	push_front(snake, x, y);

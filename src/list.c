@@ -5,8 +5,7 @@ t_list *create_elem(int x, int y)
 	t_list *new;
 
 	new = (t_list*)malloc(sizeof(*new));
-	if (new)
-	{
+	if (new) {
 		new->x = x;
 		new->y = y;
 		new->next = NULL;
@@ -35,10 +34,8 @@ int push_front(t_list **list, int x, int y)
 void del_back(t_list **list)
 {
 	t_list *iter;
-	if (*list)
-	{
-		if ((*list)->next == NULL)
-		{
+	if (*list) {
+		if ((*list)->next == NULL) {
 			free(*list);
 			*list = NULL;
 		}
@@ -57,8 +54,7 @@ void clear_list(t_list **list)
 	t_list *temp;
 	t_list *iter;
 
-	if (*list)
-	{
+	if (*list) {
 		iter = *list;
 		while (iter) {
 			temp = iter->next;

@@ -3,8 +3,8 @@
 
 void	play(int height, int width)
 {
-	t_cell **field = create_field(height, width);
-	t_list *snake = create_snake(width / 2, height / 2);
+	t_cell **field;
+	t_list *snake;
 	t_input input;
 	t_input prev_input;
 	int pause_flag = 0;
@@ -20,8 +20,14 @@ void	play(int height, int width)
 	noecho();					/* Do not echo when getchar() */
 	keypad(stdscr, TRUE);		/* enable function keys (such as arrows) */
 	nodelay(stdscr, 1);			/* getch() will not wait */
-
+	if (has_colors()) {
+		start_color();
+		init_colors();
+	}
 	srand(time(NULL));
+
+	field = create_field(height, width);
+	snake = create_snake(width / 2, height / 2);
 	place_food(field, height, width, length);
 	length = 1;
 	prev_input = INPUT_UP;
@@ -33,13 +39,11 @@ void	play(int height, int width)
 		input = handle_input();
 		if (input == INPUT_QUIT)
 			break;
-		if (input == INPUT_PAUSE)
-		{
+		if (input == INPUT_PAUSE) {
 			clock_start = clock(); /* to have wait_time after pause ends */
 			pause_flag ^= 1;	/* swap 0 and 1*/
 		}
-		if (!pause_flag && !gameover_flag)
-		{
+		if (!pause_flag && !gameover_flag) {
 			if (is_input_move(input)) {
 				move_res = move_snake(
 					&snake, field, input_to_move(input, prev_input, length));
@@ -51,8 +55,7 @@ void	play(int height, int width)
 				clock_start = clock();
 				move_res = move_snake(&snake, field, prev_input); /* automove */
 			}
-			if (move_res == BON_APPETIT)
-			{
+			if (move_res == BON_APPETIT) {
 				length++;
 				move_res = MOVE_OK; /* do not eat prev. food on next iteration */
 				if (place_food(field, height, width, length) == 1)

@@ -6,7 +6,7 @@ int main(int argc, char **argv)
 {
 	int height;
 	int width;
-	
+
 	height = DEF_HEIGHT;
 	width = DEF_WIDTH;
 	if (argc >= 2) {
@@ -18,4 +18,3 @@ int main(int argc, char **argv)
 	play(height, width);
 	return (0);
 }
-
