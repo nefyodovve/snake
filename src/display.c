@@ -2,12 +2,15 @@
 
 void show_field(t_cell **field, int height, int width,
 				   t_list *snake)
-{	
+{
+	int i;
+	int j;
+
 	clear_field(field, height, width);
 	place_snake_to_field(snake, field);
 	move(0, 0);
-	for (int i = 0; i < height; i++) {
-		for (int j = 0; j < width; j++)
+	for (i = 0; i < height; i++) {
+		for (j = 0; j < width; j++)
 			addch(get_field_char(field[i][j]));
 		addch('\n');
 	}

@@ -1,7 +1,11 @@
 #ifndef SNAKE_H
 # define SNAKE_H
 
-# include <ncurses.h>
+# ifdef __unix__
+#  include <ncurses.h>
+# elif defined(_WIN32) || defined(_WIN64)
+#  include <ncurses/ncurses.h>
+# endif
 # include <stdlib.h>
 
 # define DEF_HEIGHT 10

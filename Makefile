@@ -2,19 +2,22 @@ NAME = snake
 
 SRC =	./src/main.c ./src/play.c ./src/display.c ./src/snake.c \
 	./src/field.c ./src/list.c
-HDR_DIR = ./src
-FLAGS = -Wall -Wextra
+INCLUDE = ./src
+CC = gcc
+CFLAGS = -Wall -Wextra
 LIB = ncurses
+
 
 all: $(NAME)
 
 $(NAME):
-	gcc $(FLAGS) -I$(HDR_DIR) -o $(NAME) $(SRC) -l$(LIB)
+	$(CC) $(CFLAGS) -I$(INCLUDE) -o $(NAME) $(SRC) -l$(LIB)
 
 debug: clean
-	gcc $(FLAGS) -g -I$(HDR_DIR) -o $(NAME) $(SRC) -l$(LIB)
+	$(CC) $(CFLAGS) -g -I$(INCLUDE) -o $(NAME) $(SRC) -l$(LIB)
 
 clean:
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@rm -f $(NAME).exe
 
 re: clean all

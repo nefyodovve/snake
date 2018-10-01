@@ -3,12 +3,14 @@
 t_cell **create_field(int height, int width)
 {
 	t_cell	**ret;
+	int i;
+	int j;
 
 	ret = (t_cell**)malloc(sizeof(*ret) * height);
-	for (int i = 0; i < height; i++)
+	for (i = 0; i < height; i++)
 	{
 		ret[i] = (t_cell*)malloc(sizeof(**ret) * width);
-		for (int j = 0; j < width; j++)
+		for (j = 0; j < width; j++)
 		{
 			if (i == 0 || j == 0 || i == height - 1 || j == width - 1)
 				ret[i][j] = EDGE;
@@ -21,9 +23,12 @@ t_cell **create_field(int height, int width)
 
 void clear_field(t_cell **field, int height, int width) /* from snake, keep borders and food */
 {
-	for (int i = 0; i < height; i++)
+	int i;
+	int j;
+
+	for (i = 0; i < height; i++)
 	{
-		for (int j = 0; j < width; j++)
+		for (j = 0; j < width; j++)
 		{
 			if (field[i][j] == FOOD)
 				continue;
@@ -37,7 +42,9 @@ void clear_field(t_cell **field, int height, int width) /* from snake, keep bord
 
 void destroy_field(t_cell **field, int height)
 {
-	for (int i = 0; i < height; i++)
+	int i;
+
+	for (i = 0; i < height; i++)
 	{
 		free(field[i]);
 	}
@@ -48,16 +55,16 @@ int place_food(t_cell **field, int height, int width, int length)
 {
 	int free_cells;
 	int r;
-	int k;
+	int i, j, k;
 
 	free_cells = (height - 2) * (width - 2) - length;
 	if (free_cells == 0)
 		return (1);
 	r = rand() % free_cells;
 	k = 0;
-	for (int i = 0; i < height; i++)
+	for (i = 0; i < height; i++)
 	{
-		for (int j = 0; j < width; j++)
+		for (j = 0; j < width; j++)
 		{
 			if (field[i][j] == EMPTY && k++ == r)
 			{

@@ -21,6 +21,7 @@ void	play(int height, int width)
 	keypad(stdscr, TRUE);		/* enable function keys (such as arrows) */
 	nodelay(stdscr, 1);			/* getch() will not wait */
 
+	srand(time(NULL));
 	place_food(field, height, width, length);
 	length = 1;
 	prev_input = INPUT_UP;
@@ -56,7 +57,7 @@ void	play(int height, int width)
 				move_res = MOVE_OK; /* do not eat prev. food on next iteration */
 				if (place_food(field, height, width, length) == 1)
 					gameover_flag = 2; /* win */
-				wait_time *= 0.9;
+				wait_time *= 0.97;
 				if (wait_time < MIN_DELAY) /* we don't want to play with 20 ms delay */
 					wait_time = MIN_DELAY;
 			}
